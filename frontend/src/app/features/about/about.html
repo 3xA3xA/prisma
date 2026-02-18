@@ -1,0 +1,204 @@
+<div class="about-page">
+  <div class="about-page__inner container">
+
+    <!-- ══════════════════════════
+         HEADER
+    ══════════════════════════ -->
+    <div class="about-header" scrollReveal>
+      <div class="about-header__badge glass">
+        <span>🎓</span>
+        <span class="about-header__badge-text">Дипломный проект 2026</span>
+      </div>
+      <h1 class="about-header__title text-gradient-white">О проекте</h1>
+      <p class="about-header__sub text-muted">
+        PRISMA — дипломный проект по специальности «Программная инженерия».
+        Единая платформа для общения и сравнения AI&#8209;моделей.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════
+         ЧТО ЭТО
+    ══════════════════════════ -->
+    <div class="about-what glass-strong glass-shimmer" scrollReveal [revealDelay]="80">
+
+      <div class="about-what__text">
+        <h2 class="about-what__title">Что такое PRISMA?</h2>
+        <p class="about-what__desc text-muted">
+          Это веб-платформа, которая объединяет API нескольких AI-моделей
+          в единый интерфейс. Пользователь может общаться с разными нейросетями,
+          сравнивать их ответы в режиме «Арены» и получать аналитику
+          по качеству и стоимости.
+        </p>
+        <p class="about-what__desc text-muted">
+          Аналоги:
+          <span class="about-what__accent">lmarena.ai, poe.com, perplexity.ai</span>.
+          Ключевое отличие — фокус на сравнении моделей и открытый исходный код.
+        </p>
+      </div>
+
+      <div class="about-what__stats">
+        @for (s of stats; track s.label) {
+          <div class="about-stat glass">
+            <span class="about-stat__label">{{ s.label }}</span>
+            <span class="about-stat__val text-gradient-purple">{{ s.value }}</span>
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════
+         СТЕК ТЕХНОЛОГИЙ
+    ══════════════════════════ -->
+    <div class="about-section" scrollReveal>
+      <h2 class="about-section__title">🛠 Стек технологий</h2>
+    </div>
+
+    <div class="tech-grid">
+      @for (tech of techStack; track tech.category; let i = $index) {
+        <div class="tech-card glass glass-shimmer"
+             scrollReveal [revealDelay]="i * 60">
+
+          <div class="tech-card__header">
+            <span class="tech-card__icon">{{ tech.icon }}</span>
+            <h3 class="tech-card__category">{{ tech.category }}</h3>
+            <span class="tech-card__dot"
+                  [style.background]="tech.color"></span>
+          </div>
+
+          <div class="tech-card__items">
+            @for (item of tech.items; track item.name) {
+              <div class="tech-item">
+                <span class="tech-item__dot"
+                      [style.background]="tech.color"></span>
+                <div>
+                  <p class="tech-item__name">{{ item.name }}</p>
+                  <p class="tech-item__desc">{{ item.desc }}</p>
+                </div>
+              </div>
+            }
+          </div>
+
+        </div>
+      }
+    </div>
+
+    <!-- ══════════════════════════
+         АРХИТЕКТУРА
+    ══════════════════════════ -->
+    <div class="about-section" scrollReveal>
+      <h2 class="about-section__title">🏗 Архитектура системы</h2>
+    </div>
+
+    <div class="arch-card glass-strong glass-shimmer" scrollReveal [revealDelay]="60">
+      <div class="arch-layers">
+        @for (layer of archLayers; track layer.label) {
+          <div class="arch-layer-wrap">
+            <div class="arch-layer"
+                 [ngStyle]="getLayerStyle(layer.color)">
+              <p class="arch-layer__sub">{{ layer.sub }}</p>
+              <p class="arch-layer__label">{{ layer.label }}</p>
+              <p class="arch-layer__desc">{{ layer.desc }}</p>
+            </div>
+            @if (layer.arrow) {
+              <div class="arch-arrow">→</div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- ══════════════════════════
+         ROADMAP
+    ══════════════════════════ -->
+    <div class="about-section" scrollReveal>
+      <h2 class="about-section__title">📅 Дорожная карта</h2>
+    </div>
+
+    <div class="roadmap" scrollReveal [revealDelay]="60">
+      @for (item of roadmap; track item.phase) {
+        <div class="roadmap-item glass"
+             [class.roadmap-item--current]="item.status === 'current'"
+             [ngStyle]="getRoadmapStyle(item)">
+
+          <div class="roadmap-item__num"
+               [class.roadmap-item__num--active]="item.status === 'current'">
+            {{ item.status === 'current' ? '▶' : item.phase }}
+          </div>
+
+          <div class="roadmap-item__body">
+            <div class="roadmap-item__title-row">
+              <p class="roadmap-item__title">{{ item.title }}</p>
+              @if (item.status === 'current') {
+                <span class="roadmap-item__badge">В разработке</span>
+              }
+            </div>
+            <p class="roadmap-item__desc">{{ item.desc }}</p>
+          </div>
+
+          <span class="roadmap-item__date">{{ item.date }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- ══════════════════════════
+         КОМАНДА
+    ══════════════════════════ -->
+    <div class="about-section" scrollReveal>
+      <h2 class="about-section__title">👥 Команда</h2>
+    </div>
+
+    <div class="team" scrollReveal [revealDelay]="60">
+      @for (member of team; track member.name) {
+        <div class="team-card glass glass-shimmer">
+          <div class="team-card__avatar"
+               [ngStyle]="getIconStyle(member.color)">
+            {{ member.avatar }}
+          </div>
+          <div>
+            <p class="team-card__name">{{ member.name }}</p>
+            <p class="team-card__role">{{ member.role }}</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- ══════════════════════════
+         GITHUB
+    ══════════════════════════ -->
+    <div class="github-card glass-strong glass-shimmer" scrollReveal>
+
+      <div class="github-card__orb"></div>
+
+      <div class="github-card__top">
+        <span class="github-card__star">⭐</span>
+        <h2 class="github-card__title">Open Source проект</h2>
+        <p class="github-card__sub text-muted">
+          Исходный код доступен на GitHub.
+          Структура репозитория следует принципам чистой архитектуры.
+        </p>
+      </div>
+
+      <!-- Дерево репозитория -->
+      <div class="repo-tree glass">
+        @for (line of repoTree; track $index) {
+          <div class="repo-tree__line"
+               [style.padding-left]="(line.indent * 16) + 'px'">
+            <span [style.color]="line.color">{{ line.text }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="github-card__actions">
+        <a href="#" class="btn-primary github-card__btn">
+          GitHub →
+        </a>
+        <a href="#" class="btn-glass github-card__btn">
+          📄 Документация
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</div>

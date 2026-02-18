@@ -1,0 +1,307 @@
+/* ══════════════════════════════════════
+   PAGE WRAPPER
+══════════════════════════════════════ */
+.models-page {
+  min-height: 100vh;
+  padding-top: 120px;   // отступ под navbar
+  padding-bottom: 80px;
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+.models-header {
+  text-align: center;
+  margin-bottom: 56px;
+
+  &__title {
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+  }
+
+  &__sub {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+}
+
+/* ══════════════════════════════════════
+   CONTROLS: поиск + фильтры
+══════════════════════════════════════ */
+.models-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Поиск */
+.models-search {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+
+  &__icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--clr-text-38);
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 12px 16px 12px 42px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-family: var(--font-base);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(20px);
+    transition: border-color var(--ease-base), box-shadow var(--ease-base);
+
+    &::placeholder { color: var(--clr-text-38); }
+
+    &:focus {
+      outline: none;
+      border-color: rgba(139, 92, 246, 0.55);
+      box-shadow:
+        0 0 0 3px rgba(139, 92, 246, 0.12),
+        0 0 24px rgba(139, 92, 246, 0.08);
+    }
+  }
+}
+
+/* Фильтры */
+.models-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.models-filter {
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all var(--ease-base);
+  cursor: pointer;
+
+  // Неактивный
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--clr-text-48);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.85);
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  // Активный
+  &--active {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    border-color: rgba(139, 92, 246, 0.50);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.30);
+
+    &:hover {
+      box-shadow: 0 0 28px rgba(124, 58, 237, 0.45);
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #fff;
+    }
+  }
+}
+
+/* ══════════════════════════════════════
+   GRID
+══════════════════════════════════════ */
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  @media (max-width: 1280px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 960px)  { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 560px)  { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════
+   MODEL CARD
+══════════════════════════════════════ */
+.model-card {
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform var(--ease-base), border-color var(--ease-base), box-shadow var(--ease-base);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(139, 92, 246, 0.30);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Шапка */
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  &__icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  &__title-block {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__company {
+    font-size: 12px;
+    color: var(--clr-text-38);
+    margin-top: 2px;
+  }
+
+  /* Рейтинг */
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  &__rating-val {
+    font-size: 12px;
+    color: var(--clr-text-48);
+  }
+
+  /* Описание */
+  &__desc {
+    font-size: 12px;
+    color: var(--clr-text-48);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  /* Теги */
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  &__tag {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: var(--r-full);
+    color: var(--clr-text-48);
+  }
+
+  /* Характеристики */
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  &__stat-label {
+    font-size: 10px;
+    color: var(--clr-text-25);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__stat-val {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  /* Кнопка */
+  &__btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    transition: all var(--ease-base);
+    border: 1px solid transparent;
+
+    &:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+/* ══════════════════════════════════════
+   EMPTY STATE
+══════════════════════════════════════ */
+.models-empty {
+  text-align: center;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  &__icon {
+    font-size: 48px;
+    display: block;
+  }
+
+  &__text {
+    font-size: 16px;
+    color: var(--clr-text-38);
+  }
+}

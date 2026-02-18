@@ -1,0 +1,241 @@
+<div class="arena-page">
+  <div class="arena-page__inner container">
+
+    <!-- ══════════════════════════
+         HEADER
+    ══════════════════════════ -->
+    <div class="arena-header">
+      <div class="arena-header__badge glass">
+        <span>⚔️</span>
+        <span class="arena-header__badge-text">AI Arena</span>
+      </div>
+      <h1 class="arena-header__title text-gradient-white">
+        Арена сравнения
+      </h1>
+      <p class="arena-header__sub text-muted">
+        Один вопрос — несколько ответов.
+        Оцени, какая нейросеть справляется лучше.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════
+         ШАГ 1 — Выбор моделей
+    ══════════════════════════ -->
+    <div class="arena-step glass-strong glass-shimmer">
+
+      <div class="arena-step__header">
+        <div class="arena-step__num">1</div>
+        <p class="arena-step__title">
+          Выбери модели для сравнения (от 2 до 4)
+        </p>
+        <span class="arena-step__counter">
+          {{ selectedCount() }}/4 выбрано
+        </span>
+      </div>
+
+      <div class="arena-models-grid">
+        @for (m of allModels; track m.id) {
+          <button
+            class="arena-model-btn"
+            [class.arena-model-btn--selected]="isSelected(m.id)"
+            (click)="toggleModel(m.id)"
+          >
+            <div class="arena-model-btn__icon"
+                 [ngStyle]="getModelStyle(m.color)">
+              {{ isSelected(m.id) ? '✓' : m.name[0] }}
+            </div>
+            <p class="arena-model-btn__name">{{ m.name }}</p>
+            <p class="arena-model-btn__company">{{ m.company }}</p>
+          </button>
+        }
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════
+         ШАГ 2 — Промпт
+    ══════════════════════════ -->
+    <div class="arena-step glass-strong glass-shimmer">
+
+      <div class="arena-step__header">
+        <div class="arena-step__num">2</div>
+        <p class="arena-step__title">Введи свой вопрос</p>
+      </div>
+
+      <textarea
+        class="arena-prompt glass-input"
+        placeholder="Например: Объясни Transformer архитектуру простыми словами..."
+        rows="4"
+        [value]="prompt()"
+        (input)="onPromptInput($event)"
+      ></textarea>
+
+      <div class="arena-prompt-footer">
+
+        <div class="arena-suggestions">
+          @for (s of suggestions; track s) {
+            <button
+              class="btn-glass arena-suggestion"
+              (click)="setPrompt(s)"
+            >
+              {{ s }}
+            </button>
+          }
+        </div>
+
+        <button
+          class="btn-primary arena-run-btn"
+          [disabled]="!prompt().trim() || loading()"
+          (click)="runArena()"
+        >
+          @if (loading()) {
+            <span class="arena-spinner"></span>
+            Запрос...
+          } @else {
+            ⚔️ Запустить арену
+          }
+        </button>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════
+         ШАГ 3 — Результаты
+    ══════════════════════════ -->
+    @if (loading() || ran()) {
+      <div class="arena-results">
+
+        <div class="arena-step__header arena-results__header">
+          <div class="arena-step__num">3</div>
+          <p class="arena-step__title">Результаты сравнения</p>
+          @if (ran()) {
+            <span class="arena-step__counter">
+              {{ totalVotes() }} оценок
+            </span>
+          }
+        </div>
+
+        <!-- Скелетон при загрузке -->
+        @if (loading()) {
+          <div class="arena-results-grid"
+               [class.arena-results-grid--single]="selectedIds().length === 1">
+            @for (id of selectedIds(); track id) {
+              <div class="arena-result-card glass">
+                <div class="arena-result-card__top">
+                  <div class="arena-result-card__icon"
+                       [ngStyle]="getModelStyle(getModelById(id).color)">
+                    {{ getModelById(id).name[0] }}
+                  </div>
+                  <div>
+                    <p class="arena-result-card__name">{{ getModelById(id).name }}</p>
+                    <p class="arena-result-card__company">{{ getModelById(id).company }}</p>
+                  </div>
+                </div>
+                <div class="arena-skeleton">
+                  <div class="arena-skeleton__line arena-skeleton__line--full"></div>
+                  <div class="arena-skeleton__line arena-skeleton__line--80"></div>
+                  <div class="arena-skeleton__line arena-skeleton__line--75"></div>
+                  <div class="arena-skeleton__line arena-skeleton__line--90"></div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Результаты -->
+        @if (ran() && results().length > 0) {
+          <div class="arena-results-grid"
+               [class.arena-results-grid--single]="results().length === 1">
+            @for (r of results(); track r.modelId; let i = $index) {
+
+              <div class="arena-result-card glass-strong glass-shimmer animate-fade-up">
+
+                <!-- Шапка -->
+                <div class="arena-result-card__top">
+                  <div class="arena-result-card__icon"
+                       [ngStyle]="getModelStyle(getModelById(r.modelId).color)">
+                    {{ getModelById(r.modelId).name[0] }}
+                  </div>
+                  <div class="arena-result-card__meta">
+                    <p class="arena-result-card__name">
+                      {{ getModelById(r.modelId).name }}
+                    </p>
+                    <p class="arena-result-card__company">
+                      {{ getModelById(r.modelId).company }}
+                    </p>
+                  </div>
+                  <div class="arena-result-card__pct">
+                    <p class="arena-result-card__pct-val">{{ getPct(r.votes) }}%</p>
+                    <p class="arena-result-card__pct-label">голосов</p>
+                  </div>
+                </div>
+
+                <!-- Прогресс-бар -->
+                <div class="arena-progress">
+                  <div class="arena-progress__fill"
+                       [ngStyle]="getProgressStyle(
+                         getModelById(r.modelId).color,
+                         getPct(r.votes)
+                       )">
+                  </div>
+                </div>
+
+                <!-- Текст ответа -->
+                <p class="arena-result-card__text">{{ r.text }}</p>
+
+                <!-- Голосование -->
+                <div class="arena-result-card__actions">
+                  <button
+                    class="arena-vote-btn"
+                    [class.arena-vote-btn--liked]="r.liked === true"
+                    (click)="vote(i, true)"
+                  >
+                    👍 Лучший ответ
+                  </button>
+                  <button
+                    class="arena-vote-btn"
+                    [class.arena-vote-btn--disliked]="r.liked === false"
+                    (click)="vote(i, false)"
+                  >
+                    👎 Слабее
+                  </button>
+                  <button
+                    class="btn-glass arena-copy-btn"
+                    (click)="copyText(r.text)"
+                  >
+                    📋 Копировать
+                  </button>
+                </div>
+
+              </div>
+            }
+          </div>
+
+          <!-- Лидерборд -->
+          <div class="arena-leaderboard glass">
+            <p class="arena-leaderboard__title">🏆 Рейтинг этого раунда</p>
+            <div class="arena-leaderboard__list">
+              @for (r of sortedResults(); track r.modelId; let i = $index) {
+                <div class="arena-leaderboard__row">
+                  <span class="arena-leaderboard__place">{{ i + 1 }}</span>
+                  <span
+                    class="arena-leaderboard__dot"
+                    [style.background]="getModelById(r.modelId).color"
+                  ></span>
+                  <span class="arena-leaderboard__name">
+                    {{ getModelById(r.modelId).name }}
+                  </span>
+                  <span class="arena-leaderboard__pct">
+                    {{ getPct(r.votes) }}%
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+      </div>
+    }
+
+  </div>
+</div>

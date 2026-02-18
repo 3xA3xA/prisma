@@ -1,0 +1,141 @@
+<div class="models-page">
+  <div class="models-page__inner container">
+
+    <!-- ══════════════════════════
+         HEADER
+    ══════════════════════════ -->
+    <div class="models-header" scrollReveal>
+      <h1 class="models-header__title text-gradient-white">
+        Каталог моделей
+      </h1>
+      <p class="models-header__sub text-muted">
+        {{ allModels.length }} нейросетей в одном месте.
+        Сравнивай, выбирай, используй.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════
+         SEARCH + FILTERS
+    ══════════════════════════ -->
+    <div class="models-controls" scrollReveal [revealDelay]="80">
+
+      <!-- Поиск -->
+      <div class="models-search">
+        <svg class="models-search__icon" width="16" height="16"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          class="models-search__input glass-input"
+          placeholder="Поиск модели или компании..."
+          [value]="searchQuery()"
+          (input)="onSearch($any($event.target).value)"
+        />
+      </div>
+
+      <!-- Категории -->
+      <div class="models-filters">
+        @for (cat of categories; track cat) {
+          <button
+            class="models-filter"
+            [class.models-filter--active]="activeCategory() === cat"
+            (click)="setCategory(cat)"
+          >
+            {{ cat }}
+          </button>
+        }
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════
+         GRID
+    ══════════════════════════ -->
+    @if (filtered().length > 0) {
+      <div class="models-grid">
+        @for (m of filtered(); track m.id; let i = $index) {
+          <div class="model-card glass glass-shimmer"
+               scrollReveal [revealDelay]="i * 50">
+
+            <!-- Шапка карточки -->
+            <div class="model-card__header">
+              <div class="model-card__icon"
+                   [ngStyle]="getIconStyle(m.color)">
+                {{ m.name[0] }}
+              </div>
+              <div class="model-card__title-block">
+                <p class="model-card__name">{{ m.name }}</p>
+                <p class="model-card__company">{{ m.company }}</p>
+              </div>
+            </div>
+
+            <!-- Рейтинг -->
+            <div class="model-card__rating">
+              <div class="model-card__stars">
+                @for (star of stars; track star) {
+                  <svg width="12" height="12" viewBox="0 0 24 24"
+                       [attr.fill]="isStarFilled(m.rating, star) ? '#a78bfa' : 'none'"
+                       stroke="#a78bfa" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14
+                                     18.18 21.02 12 17.77 5.82 21.02
+                                     7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                }
+              </div>
+              <span class="model-card__rating-val">{{ m.rating }}/10</span>
+            </div>
+
+            <!-- Описание -->
+            <p class="model-card__desc">{{ m.desc }}</p>
+
+            <!-- Теги -->
+            <div class="model-card__tags">
+              @for (tag of m.tags; track tag) {
+                <span class="model-card__tag glass">{{ tag }}</span>
+              }
+            </div>
+
+            <!-- Характеристики -->
+            <div class="model-card__stats">
+              <div class="model-card__stat">
+                <span class="model-card__stat-label">Контекст</span>
+                <span class="model-card__stat-val">{{ m.ctx }}</span>
+              </div>
+              <div class="model-card__stat">
+                <span class="model-card__stat-label">Скорость</span>
+                <span class="model-card__stat-val">{{ m.speed }}</span>
+              </div>
+              <div class="model-card__stat">
+                <span class="model-card__stat-label">Цена</span>
+                <span class="model-card__stat-val">{{ m.price }}</span>
+              </div>
+            </div>
+
+            <!-- Кнопка -->
+            <button
+              class="model-card__btn btn-primary"
+              [ngStyle]="getChatBtnStyle(m.color)"
+              (click)="openChat(m)"
+            >
+              Открыть чат →
+            </button>
+
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Пусто -->
+    @if (filtered().length === 0) {
+      <div class="models-empty">
+        <span class="models-empty__icon">🔍</span>
+        <p class="models-empty__text">
+          Ничего не найдено. Попробуй другой запрос.
+        </p>
+      </div>
+    }
+
+  </div>
+</div>
