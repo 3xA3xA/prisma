@@ -1,0 +1,470 @@
+/* ══════════════════════════════════════
+   PAGE
+══════════════════════════════════════ */
+.arena-page {
+  min-height: 100vh;
+  padding-top: 120px;
+  padding-bottom: 80px;
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+.arena-header {
+  text-align: center;
+  margin-bottom: 48px;
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: var(--r-full);
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  &__badge-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--clr-text-48);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  &__title {
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+  }
+
+  &__sub {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+}
+
+/* ══════════════════════════════════════
+   STEP CARD
+══════════════════════════════════════ */
+.arena-step {
+  border-radius: 24px;
+  padding: 28px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  &__num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--clr-purple), var(--clr-purple-mid));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.82);
+    flex: 1;
+  }
+
+  &__counter {
+    font-size: 12px;
+    color: var(--clr-text-38);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+}
+
+/* ══════════════════════════════════════
+   MODELS GRID (шаг 1)
+══════════════════════════════════════ */
+.arena-models-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+
+  @media (max-width: 900px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 480px) { grid-template-columns: repeat(2, 1fr); }
+}
+
+.arena-model-btn {
+  padding: 14px 10px;
+  border-radius: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition: all var(--ease-base);
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+  }
+
+  &--selected {
+    background: rgba(124, 58, 237, 0.18);
+    border-color: rgba(139, 92, 246, 0.50);
+    box-shadow: 0 0 16px rgba(124, 58, 237, 0.20);
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 auto 10px;
+  }
+
+  &__name {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  &__company {
+    font-size: 11px;
+    color: var(--clr-text-38);
+  }
+}
+
+/* ══════════════════════════════════════
+   PROMPT (шаг 2)
+══════════════════════════════════════ */
+.arena-prompt {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-family: var(--font-base);
+  color: rgba(255, 255, 255, 0.90);
+  resize: none;
+  line-height: 1.65;
+  margin-bottom: 16px;
+
+  &::placeholder { color: var(--clr-text-38); }
+}
+
+.arena-prompt-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.arena-suggestions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.arena-suggestion {
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--clr-text-48);
+  transition: color var(--ease-fast);
+
+  &:hover { color: rgba(255, 255, 255, 0.85); }
+}
+
+.arena-run-btn {
+  padding: 12px 28px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.40;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+}
+
+/* Спиннер */
+.arena-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ══════════════════════════════════════
+   RESULTS (шаг 3)
+══════════════════════════════════════ */
+.arena-results {
+  margin-top: 8px;
+
+  &__header {
+    margin-bottom: 20px;
+  }
+}
+
+.arena-results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+
+  &--single { grid-template-columns: 1fr; }
+
+  @media (max-width: 700px) { grid-template-columns: 1fr; }
+}
+
+/* ── Карточка результата ── */
+.arena-result-card {
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  &__meta { flex: 1; min-width: 0; }
+
+  &__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.90);
+    line-height: 1.2;
+  }
+
+  &__company {
+    font-size: 11px;
+    color: var(--clr-text-38);
+    margin-top: 2px;
+  }
+
+  &__pct {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  &__pct-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1;
+  }
+
+  &__pct-label {
+    font-size: 10px;
+    color: var(--clr-text-38);
+    margin-top: 2px;
+  }
+
+  &__text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    flex-wrap: wrap;
+  }
+}
+
+/* Прогресс-бар */
+.arena-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-full);
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    border-radius: var(--r-full);
+    transition: width 0.7s ease;
+  }
+}
+
+/* ── Кнопки голосования ── */
+.arena-vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-base);
+  transition: all var(--ease-base);
+
+  // Дефолт
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--clr-text-48);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.80);
+  }
+
+  // Лайк активен
+  &--liked {
+    background: linear-gradient(135deg, var(--clr-purple), var(--clr-purple-mid));
+    border-color: rgba(139, 92, 246, 0.50);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(124, 58, 237, 0.30);
+  }
+
+  // Дизлайк активен
+  &--disliked {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.38);
+    color: #fca5a5;
+  }
+}
+
+.arena-copy-btn {
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-left: auto;
+  color: var(--clr-text-48);
+}
+
+/* ── Скелетон ── */
+.arena-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+
+  &__line {
+    height: 10px;
+    border-radius: var(--r-full);
+    background: rgba(255, 255, 255, 0.07);
+    animation: shimmer 1.5s ease infinite;
+
+    &--full { width: 100%; }
+    &--80   { width: 80%; }
+    &--75   { width: 75%; }
+    &--90   { width: 90%; }
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+/* ══════════════════════════════════════
+   LEADERBOARD
+══════════════════════════════════════ */
+.arena-leaderboard {
+  border-radius: 20px;
+  padding: 22px 24px;
+  margin-top: 16px;
+
+  &__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 16px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__place {
+    font-size: 12px;
+    color: var(--clr-text-38);
+    width: 16px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.72);
+    flex: 1;
+  }
+
+  &__pct {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
