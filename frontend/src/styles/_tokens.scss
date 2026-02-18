@@ -1,0 +1,81 @@
+// ─────────────────────────────────────────
+// DESIGN TOKENS
+// Все значения проекта в одном месте.
+// Меняешь здесь — меняется везде.
+// ─────────────────────────────────────────
+
+:root {
+
+  // ── Цвета фона ──────────────────────────
+  --clr-bg:          #000000;
+  --clr-bg-deep:     #0d0221;
+
+  // ── Акцентные цвета ─────────────────────
+  --clr-purple:      #7c3aed;
+  --clr-purple-mid:  #6d28d9;
+  --clr-purple-dark: #4c1d95;
+  --clr-purple-soft: #a78bfa;
+  --clr-cyan:        #06b6d4;
+  --clr-cyan-dark:   #0891b2;
+
+  // ── Текст ───────────────────────────────
+  --clr-text:        #ffffff;
+  --clr-text-60:     rgba(255, 255, 255, 0.60);
+  --clr-text-48:     rgba(255, 255, 255, 0.48);
+  --clr-text-38:     rgba(255, 255, 255, 0.38);
+  --clr-text-25:     rgba(255, 255, 255, 0.25);
+  --clr-text-18:     rgba(255, 255, 255, 0.18);
+
+  // ── Glass ───────────────────────────────
+  --glass-soft-bg:      rgba(255, 255, 255, 0.06);
+  --glass-soft-border:  rgba(255, 255, 255, 0.12);
+  --glass-mid-bg:       rgba(255, 255, 255, 0.08);
+  --glass-mid-border:   rgba(255, 255, 255, 0.15);
+  --glass-strong-bg:    rgba(255, 255, 255, 0.10);
+  --glass-strong-border:rgba(255, 255, 255, 0.18);
+  --glass-blur:         blur(24px) saturate(180%);
+  --glass-blur-strong:  blur(40px) saturate(200%);
+
+  // ── Радиусы ─────────────────────────────
+  --r-xs:   8px;
+  --r-sm:   11px;
+  --r-md:   14px;
+  --r-lg:   18px;
+  --r-xl:   22px;
+  --r-2xl:  28px;
+  --r-full: 9999px;
+
+  // ── Отступы ─────────────────────────────
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  // ── Шрифты ──────────────────────────────
+  --font-base: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', monospace;
+
+  // ── Переходы ────────────────────────────
+  --ease-base: 0.25s ease;
+  --ease-fast: 0.15s ease;
+  --ease-slow: 0.4s ease;
+
+  // ── Тени ────────────────────────────────
+  --shadow-purple-sm: 0 6px 24px rgba(124, 58, 237, 0.15);
+  --shadow-purple-md: 0 0 30px rgba(124, 58, 237, 0.40);
+  --shadow-purple-lg: 0 40px 100px rgba(124, 58, 237, 0.22);
+  --shadow-purple-xl: 0 0 50px rgba(124, 58, 237, 0.60);
+
+  // ── Контент ─────────────────────────────
+  --max-w-content: 1200px;
+  --max-w-text:    720px;
+  --navbar-h:      64px;
+}

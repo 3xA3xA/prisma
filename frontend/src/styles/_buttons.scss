@@ -1,0 +1,78 @@
+// ─────────────────────────────────────────
+// BUTTONS
+// Все кнопки проекта в одном месте.
+// Используй эти классы везде.
+// ─────────────────────────────────────────
+
+// ── Базовый сброс ───────────────────────
+%btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-base);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition:
+    transform var(--ease-base),
+    box-shadow var(--ease-base),
+    background var(--ease-base),
+    border-color var(--ease-base);
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:active { transform: scale(0.98); }
+}
+
+// ── Основная (фиолетовая) ────────────────
+.btn-primary {
+  @extend %btn-base;
+
+  background: linear-gradient(
+    135deg,
+    var(--clr-purple),
+    var(--clr-purple-mid),
+    var(--clr-purple-dark)
+  );
+  border: 1px solid rgba(139, 92, 246, 0.50);
+  color: #fff;
+  box-shadow: var(--shadow-purple-md);
+
+  &:hover {
+    box-shadow: var(--shadow-purple-xl);
+    transform: translateY(-1px);
+  }
+}
+
+// ── Стеклянная ───────────────────────────
+.btn-glass {
+  @extend %btn-base;
+
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(20px);
+  color: var(--clr-text-60);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.20);
+    color: var(--clr-text);
+    transform: translateY(-1px);
+  }
+}
+
+// ── Размеры (добавляй к .btn-primary / .btn-glass) ──
+.btn-sm  { padding: 6px  14px; border-radius: var(--r-sm); font-size: 12px; }
+.btn-md  { padding: 11px 22px; border-radius: var(--r-md); font-size: 14px; }
+.btn-lg  { padding: 14px 28px; border-radius: var(--r-md); font-size: 15px; }
+.btn-xl  { padding: 18px 48px; border-radius: var(--r-lg); font-size: 17px; font-weight: 700; }
+
+// ── Иконка-кнопка (квадратная) ───────────
+.btn-icon {
+  @extend %btn-base;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-sm);
+  flex-shrink: 0;
+}

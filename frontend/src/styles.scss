@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'styles/tokens'      as *;
+@use 'styles/reset'       as *;
+@use 'styles/typography'  as *;
+@use 'styles/glass'       as *;
+@use 'styles/buttons'     as *;
+@use 'styles/animations'  as *;
+@use 'styles/utilities'   as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+

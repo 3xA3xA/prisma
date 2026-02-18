@@ -1,0 +1,67 @@
+// ─────────────────────────────────────────
+// UTILITIES
+// Мелкие одноцелевые классы
+// ─────────────────────────────────────────
+
+// ── Лейаут ──────────────────────────────
+.container {
+  max-width: var(--max-w-content);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.container-text {
+  max-width: var(--max-w-text);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// ── Glow-линия ──────────────────────────
+.glow-line {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(139, 92, 246, 0.60),
+    rgba(6,  182, 212, 0.40),
+    transparent
+  );
+}
+
+// ── Hover-карточка ──────────────────────
+.card-hover {
+  transition: transform var(--ease-base), border-color var(--ease-base), box-shadow var(--ease-base);
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(124, 58, 237, 0.35);
+    box-shadow: var(--shadow-purple-sm);
+  }
+}
+
+// ── Аватар ──────────────────────────────
+.avatar {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.avatar-sm { width: 26px; height: 26px; font-size: 10px; }
+.avatar-md { width: 34px; height: 34px; font-size: 13px; }

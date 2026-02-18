@@ -1,0 +1,219 @@
+<div class="chat-layout">
+
+  <!-- ════════════════════════════
+       SIDEBAR
+  ════════════════════════════ -->
+  <aside class="sidebar glass">
+
+    <!-- Новый чат -->
+    <div class="sidebar__top">
+      <button class="btn-primary sidebar__new-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24"
+             fill="none" stroke="white" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5"  y1="12" x2="19" y2="12"/>
+        </svg>
+        Новый чат
+      </button>
+    </div>
+
+    <!-- Выбор модели -->
+    <div class="sidebar__section">
+      <p class="sidebar__label">Модель</p>
+      <div class="sidebar__models">
+        @for (m of allModels; track m.id) {
+          <button
+            class="sidebar-item sidebar__model-item"
+            [class.active]="selectedModel().id === m.id"
+            (click)="selectModel(m)"
+          >
+            <div class="sidebar__model-icon"
+                 [ngStyle]="getModelStyleByColor(m.color)">
+              {{ m.name[0] }}
+            </div>
+            <div class="sidebar__model-info">
+              <p class="sidebar__model-name">{{ m.name }}</p>
+              <p class="sidebar__model-company">{{ m.company }}</p>
+            </div>
+            @if (selectedModel().id === m.id) {
+              <svg class="sidebar__model-check" width="14" height="14"
+                   viewBox="0 0 24 24" fill="none"
+                   stroke="#a78bfa" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            }
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- История -->
+    <div class="sidebar__section sidebar__section--grow">
+      <p class="sidebar__label">История</p>
+      <div class="sidebar__history">
+        @for (chat of chatHistory; track chat.id) {
+          <button
+            class="sidebar-item sidebar__history-item"
+            [class.active]="activeChatId() === chat.id"
+            (click)="selectChat(chat.id)"
+          >
+            <div class="sidebar__history-row">
+              <p class="sidebar__history-title">{{ chat.title }}</p>
+              <span class="sidebar__history-time">{{ chat.time }}</span>
+            </div>
+            <p class="sidebar__history-preview">{{ chat.preview }}</p>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Профиль -->
+    <div class="sidebar__profile">
+      <div class="sidebar__avatar">ИВ</div>
+      <div class="sidebar__profile-info">
+        <p class="sidebar__profile-name">Иван Виноградов</p>
+        <p class="sidebar__profile-plan">Бесплатный план</p>
+      </div>
+      <button class="sidebar__settings-btn" aria-label="Настройки">
+        <svg width="15" height="15" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83
+                   2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0
+                   0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9
+                   19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0
+                   1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65
+                   1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0
+                   0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0
+                   0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65
+                   1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0
+                   0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0
+                   0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65
+                   1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65
+                   0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ════════════════════════════
+       MAIN AREA
+  ════════════════════════════ -->
+  <div class="chat-main">
+
+    <!-- Хедер чата -->
+    <div class="chat-header glass">
+      <div class="chat-header__model-icon"
+           [ngStyle]="getModelStyle(selectedModel())">
+        {{ selectedModel().name[0] }}
+      </div>
+      <div class="chat-header__info">
+        <p class="chat-header__name">{{ selectedModel().name }}</p>
+        <p class="chat-header__status">
+          {{ selectedModel().company }} · Онлайн
+        </p>
+      </div>
+      <div class="chat-header__actions">
+        <button class="btn-glass chat-header__btn">⚙️ Параметры</button>
+        <button class="btn-glass chat-header__btn">📤 Экспорт</button>
+      </div>
+    </div>
+
+    <!-- Сообщения -->
+    <div class="chat-messages">
+      @for (msg of messages(); track msg.id) {
+
+        <!-- Сообщение пользователя -->
+        @if (msg.role === 'user') {
+          <div class="message message--user animate-fade-up">
+            <div class="message__body message__body--user">
+              <div class="message__bubble message__bubble--user">
+                {{ msg.text }}
+              </div>
+              <span class="message__time">{{ msg.time }}</span>
+            </div>
+            <div class="message__avatar message__avatar--user">Я</div>
+          </div>
+        }
+
+        <!-- Сообщение AI -->
+        @if (msg.role === 'ai') {
+          <div class="message message--ai animate-fade-up">
+            <div class="message__avatar message__avatar--ai"
+                 [ngStyle]="getModelStyle(selectedModel())">
+              {{ (msg.model || 'AI')[0] }}
+            </div>
+            <div class="message__body message__body--ai">
+              <span class="message__model-name">{{ msg.model }}</span>
+              <div class="message__bubble message__bubble--ai">
+                {{ msg.text }}
+              </div>
+              <span class="message__time">{{ msg.time }}</span>
+            </div>
+          </div>
+        }
+
+      }
+
+      <!-- Typing indicator -->
+      @if (isTyping()) {
+        <div class="message message--ai animate-fade-in">
+          <div class="message__avatar message__avatar--ai"
+               [ngStyle]="getModelStyle(selectedModel())">
+            {{ selectedModel().name[0] }}
+          </div>
+          <div class="message__bubble message__bubble--ai message__bubble--typing">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+          </div>
+        </div>
+      }
+
+      <div #messagesEnd></div>
+    </div>
+
+    <!-- Поле ввода -->
+    <div class="chat-input-wrap glass">
+      <div class="chat-input-box glass-input">
+
+        <textarea
+          class="chat-input__textarea"
+          [placeholder]="'Сообщение для ' + selectedModel().name + '...'"
+          rows="1"
+          [(ngModel)]="inputText"
+          (keydown)="onKeyDown($event)"
+        ></textarea>
+
+        <div class="chat-input__actions">
+          <button class="chat-input__attach" aria-label="Прикрепить файл">
+            <svg width="17" height="17" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19
+                       a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+            </svg>
+          </button>
+          <button
+            class="btn-primary chat-input__send"
+            [disabled]="!inputText.trim()"
+            (click)="sendMessage()"
+            aria-label="Отправить"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24"
+                 fill="none" stroke="white" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+      <p class="chat-input__hint">
+        Enter — отправить · Shift+Enter — новая строка · Демо-режим
+      </p>
+    </div>
+
+  </div>
+
+</div>
