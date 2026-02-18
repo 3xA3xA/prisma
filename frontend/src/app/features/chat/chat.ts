@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgStyle } from '@angular/common';
+import { AuthService } from '../../core/services/auth.service';
 import {
   CHAT_MODELS,
   CHAT_HISTORY,
@@ -28,27 +29,23 @@ export class ChatComponent implements AfterViewChecked {
 
   @ViewChild('messagesEnd') messagesEnd!: ElementRef<HTMLDivElement>;
 
-  // ── Данные ──────────────────────────────
   readonly allModels: ChatModel[]     = CHAT_MODELS;
   readonly chatHistory: ChatHistory[] = CHAT_HISTORY;
 
-  // ── Состояние ───────────────────────────
-  messages   = signal<Message[]>(DEMO_MESSAGES);
-  isTyping   = signal(false);
-  inputText  = '';
+  messages     = signal<Message[]>(DEMO_MESSAGES);
+  isTyping     = signal(false);
+  inputText    = '';
   activeChatId = signal(1);
-
   selectedModel = signal<ChatModel>(CHAT_MODELS[0]);
 
-  // ── Computed ────────────────────────────
   modelIconStyle = computed(() => this.getModelStyle(this.selectedModel()));
 
-  // ── Lifecycle ───────────────────────────
+  constructor(public auth: AuthService) {}
+
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
 
-  // ── Методы ──────────────────────────────
   selectModel(model: ChatModel): void {
     this.selectedModel.set(model);
   }
@@ -61,9 +58,8 @@ export class ChatComponent implements AfterViewChecked {
     const text = this.inputText.trim();
     if (!text) return;
 
-    // Добавляем сообщение пользователя
     const userMsg: Message = {
-      id: Date.now(),
+      id:   Date.now(),
       role: 'user',
       text,
       time: this.getTime(),
@@ -73,14 +69,13 @@ export class ChatComponent implements AfterViewChecked {
     this.inputText = '';
     this.isTyping.set(true);
 
-    // Имитируем ответ AI
     setTimeout(() => {
       const aiMsg: Message = {
-        id: Date.now() + 1,
-        role: 'ai',
+        id:    Date.now() + 1,
+        role:  'ai',
         model: this.selectedModel().name,
-        text: AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)],
-        time: this.getTime(),
+        text:  AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)],
+        time:  this.getTime(),
       };
       this.messages.update(msgs => [...msgs, aiMsg]);
       this.isTyping.set(false);

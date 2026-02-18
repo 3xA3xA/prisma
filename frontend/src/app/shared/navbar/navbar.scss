@@ -215,6 +215,62 @@
     align-items: center;
     justify-content: center;
   }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--clr-purple), var(--clr-cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  &__user-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__user-plan {
+    font-size: 10px;
+    color: var(--clr-purple-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  &__mobile-user {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.70);
+    padding: 9px 12px;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 @keyframes fadeDown {

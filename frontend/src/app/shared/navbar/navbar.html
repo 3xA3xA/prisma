@@ -11,10 +11,14 @@
             <circle cx="20" cy="6"  r="2" fill="rgba(255,255,255,0.7)"/>
             <circle cx="4"  cy="18" r="2" fill="rgba(255,255,255,0.7)"/>
             <circle cx="20" cy="18" r="2" fill="rgba(255,255,255,0.7)"/>
-            <line x1="6"  y1="7"  x2="9"  y2="11" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-            <line x1="18" y1="7"  x2="15" y2="11" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-            <line x1="6"  y1="17" x2="9"  y2="13" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-            <line x1="18" y1="17" x2="15" y2="13" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+            <line x1="6"  y1="7"  x2="9"  y2="11"
+                  stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+            <line x1="18" y1="7"  x2="15" y2="11"
+                  stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+            <line x1="6"  y1="17" x2="9"  y2="13"
+                  stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+            <line x1="18" y1="17" x2="15" y2="13"
+                  stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
           </svg>
         </div>
         <span class="navbar__logo-text">PRISMA</span>
@@ -23,27 +27,38 @@
       <!-- Desktop nav -->
       <div class="navbar__nav">
         @for (link of links; track link.path) {
-          <a [routerLink]="link.path"
-             routerLinkActive="active"
-             class="navbar__link">
+          <a
+            [routerLink]="link.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: false }"
+            class="navbar__link"
+          >
             {{ link.label }}
           </a>
         }
       </div>
 
-      <!-- Actions -->
+      <!-- Actions — один единственный блок -->
       <div class="navbar__actions">
-        <button class="btn-glass navbar__btn-ghost">Войти</button>
-        <a routerLink="/chat"
-           class="btn-primary navbar__btn-primary">
-          Начать
-        </a>
+        @if (auth.isLoggedIn()) {
+          <div class="navbar__user">
+            <div class="navbar__user-avatar">{{ auth.initials() }}</div>
+            <div class="navbar__user-info">
+              <span class="navbar__user-name">{{ auth.user()?.name }}</span>
+              <span class="navbar__user-plan">{{ auth.user()?.plan }}</span>
+            </div>
+            <button class="btn-glass navbar__btn-ghost" (click)="logout()">
+              Выйти
+            </button>
+          </div>
+        } @else {
+          <a routerLink="/login"    class="btn-glass navbar__btn-ghost">Войти</a>
+          <a routerLink="/register" class="btn-primary navbar__btn-primary">Начать</a>
+        }
       </div>
 
       <!-- Burger -->
-      <button class="navbar__burger"
-              (click)="toggleMenu()"
-              aria-label="Меню">
+      <button class="navbar__burger" (click)="toggleMenu()" aria-label="Меню">
         <svg width="22" height="22" viewBox="0 0 24 24"
              fill="none" stroke="currentColor" stroke-width="2">
           @if (menuOpen()) {
@@ -62,20 +77,33 @@
     @if (menuOpen()) {
       <div class="navbar__mobile">
         @for (link of links; track link.path) {
-          <a [routerLink]="link.path"
-             routerLinkActive="active"
-             class="navbar__mobile-link"
-             (click)="closeMenu()">
+          <a
+            [routerLink]="link.path"
+            routerLinkActive="active"
+            class="navbar__mobile-link"
+            (click)="closeMenu()"
+          >
             {{ link.label }}
           </a>
         }
         <div class="navbar__mobile-actions">
-          <button class="btn-glass navbar__mobile-btn">Войти</button>
-          <a routerLink="/chat"
-             class="btn-primary navbar__mobile-btn"
-             (click)="closeMenu()">
-            Начать
-          </a>
+          @if (auth.isLoggedIn()) {
+            <span class="navbar__mobile-user">{{ auth.user()?.name }}</span>
+            <button class="btn-glass navbar__mobile-btn" (click)="logout()">
+              Выйти
+            </button>
+          } @else {
+            <a routerLink="/login"
+               class="btn-glass navbar__mobile-btn"
+               (click)="closeMenu()">
+              Войти
+            </a>
+            <a routerLink="/register"
+               class="btn-primary navbar__mobile-btn"
+               (click)="closeMenu()">
+              Начать
+            </a>
+          }
         </div>
       </div>
     }

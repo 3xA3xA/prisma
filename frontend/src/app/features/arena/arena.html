@@ -71,33 +71,42 @@
       ></textarea>
 
       <div class="arena-prompt-footer">
-
         <div class="arena-suggestions">
-          @for (s of suggestions; track s) {
-            <button
-              class="btn-glass arena-suggestion"
-              (click)="setPrompt(s)"
-            >
-              {{ s }}
+            @for (s of suggestions; track s) {
+            <button class="btn-glass arena-suggestion" (click)="setPrompt(s)">
+                {{ s }}
             </button>
-          }
+            }
         </div>
 
         <button
-          class="btn-primary arena-run-btn"
-          [disabled]="!prompt().trim() || loading()"
-          (click)="runArena()"
+            class="btn-primary arena-run-btn"
+            [disabled]="!prompt().trim() || loading()"
+            (click)="runArena()"
         >
-          @if (loading()) {
+            @if (loading()) {
             <span class="arena-spinner"></span>
             Запрос...
-          } @else {
+            } @else {
             ⚔️ Запустить арену
-          }
+            }
         </button>
-
-      </div>
-    </div>
+        </div>
+    <!-- Блок ошибки авторизации — под кнопкой -->
+    @if (authError()) {
+    <div class="arena-auth-error animate-fade-in">
+        <svg width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8"  x2="12"    y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>Чтобы запустить арену, нужно войти в аккаунт</span>
+        <button class="btn-primary arena-auth-error__btn" (click)="goToLogin()">
+        Войти →
+        </button>
+  </div>
+}
 
     <!-- ══════════════════════════
          ШАГ 3 — Результаты
