@@ -139,9 +139,10 @@
               </div>
               <span class="message__time">{{ msg.time }}</span>
             </div>
+            <!-- Инициалы из аккаунта вместо "Я" -->
             <div class="message__avatar message__avatar--user">
-            {{ auth.initials() }}
-          </div>
+              {{ auth.initials() || 'Я' }}
+            </div>
           </div>
         }
 
